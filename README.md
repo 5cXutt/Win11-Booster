@@ -12,7 +12,7 @@ Download the project https://github.com/Scuttlang/Win11-Booster/releases/downloa
 
 # My Project
 
-[Watch the video](https://imgur.com/C6QOPb7)
+
 
 
 ## Description
