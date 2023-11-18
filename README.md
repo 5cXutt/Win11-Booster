@@ -12,7 +12,8 @@ Download the project https://github.com/Scuttlang/Win11-Booster/releases/downloa
 
 ## Video
 
-![Uploading Video-senza-titolo-Realizzato-con-Clipchamp-_6_.gif…]()
+![Video-senza-titolo-Realizzato-con-Clipchamp-_6_](https://github.com/Scuttlang/Win11-Booster/assets/139585282/1b3bcb26-aa15-4089-b17c-8614346aa1d6)
+
 
 ## Description
 
