@@ -10,6 +10,8 @@ To use the Win11 Booster script, follow the steps below:
 
 Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip and extract the contents.
 
+## Video
+
 ![Uploading Video-senza-titolo-Realizzato-con-Clipchamp-_6_.gif…]()
 
 ## Description
