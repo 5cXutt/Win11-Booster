@@ -1,9 +1,16 @@
 import winreg
 import subprocess
 import ctypes
-import os
 import sys
 import time
+import os
+from colorama import init, Fore
+
+subprocess.run(['pip', 'install', 'colorama'])
+subprocess.run(['pip', 'install', 'keyboard'])
+subprocess.run(['pip', 'install', 'winreg'])
+
+init(autoreset=True)
 
 def is_admin():
     try:
@@ -15,30 +22,15 @@ if is_admin():
     print("")
 else:
     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
-
     sys.exit()
 
 eula_text = """
-
 END-USER LICENSE AGREEMENT
-
 IMPORTANT-READ CAREFULLY: This End-User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and [Your Company Name] for the software product(s) provided with this EULA, which may include associated software components, media, printed materials, and "online" or electronic documentation ("Software"). By installing, copying, or otherwise using the Software, you agree to be bound by the terms of this EULA. If you do not agree to the terms of this EULA, do not install or use the Software.
-
-
-
 [Scuttlang </3 ]
 """
 
 print(eula_text)
-
-commands1 = [
-    'pip install keyboard',
-    'pip install winreg'
-]
-
-for command in commands1:
-    subprocess.run(['powershell', '-Command', command], shell=True)
-
 
 def update_progress_bar(completed, goal):
     progress = completed / goal
@@ -46,20 +38,21 @@ def update_progress_bar(completed, goal):
     completed_blocks = int(bar_length * progress)
     remaining_blocks = bar_length - completed_blocks
 
-    bar = "🟦" * completed_blocks + "🟥" * remaining_blocks
+    bar = Fore.GREEN + "🟦" * completed_blocks + Fore.RED + "🟥" * remaining_blocks + Fore.RESET
 
     percentage = int(progress * 100)
     progress_text = f"{bar}  {percentage}%"
-    
+
     return progress_text
 
 def simulate_progress():
     goal_value = 10
 
     for completed_value in range(goal_value + 1):
+        os.system('cls' if os.name == 'nt' else 'clear')
         progress_bar = update_progress_bar(completed_value, goal_value)
-        print(progress_bar, end='\r')
-        time.sleep(0.5)  
+        print(progress_bar)
+        time.sleep(0.5)
 
     print("\nComplete!")
 
@@ -184,8 +177,6 @@ def modify_registry():
     finally:
         winreg.CloseKey(key)
 
-if __name__ == "__main__":
-    modify_registry()
 
 
 def modify_registryS():
@@ -207,18 +198,15 @@ def modify_registryS():
         key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, key_path)
 
     try:
-        winreg.SetValueEx(key, value_name, 0, winreg.REG_DWORD, value_data)
-        print("Registry key and DWORD value set successfully.")
+        winreg.SetValueEx(key, value_name, 0, winreg.REG_SZ, value_data)
+        print("Registry key and String value set successfully.")
     except Exception as e:
-        print(f"Error setting registry DWORD value: {e}")
+        print(f"Error setting registry String value: {e}")
     finally:
         winreg.CloseKey(key)
 
-if __name__ == "__main__":
-    modify_registryS()
-
-
-commands = [
+def run_commands():
+    commands = [
     'powercfg /duplicatescheme 3c0050b9-c741-431c-b155-869aefed4a28',
     'powercfg /setactive 3c0050b9-c741-431c-b155-869aefed4a28'
     'bcdedit -set disabledynamictick yes',
@@ -260,7 +248,11 @@ commands = [
     'Restart-Computer -Force'
 ]
 
-for command in commands:
-    subprocess.run(['powershell', '-Command', command], shell=True)
+    for command in commands:
+        subprocess.run(['powershell', '-Command', command], shell=True)
 
-simulate_progress()
+if __name__ == "__main__":
+    modify_registry()
+    modify_registryS()
+    run_commands()
+    simulate_progress()
