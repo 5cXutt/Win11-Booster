@@ -12,7 +12,8 @@ Download the project https://github.com/Scuttlang/Win11-Booster/releases/downloa
 
 ## Video
 
-[![Watch the video](https://imgur.com/a/3w43BR1)](https://imgur.com/a/3w43BR1)
+https://imgur.com/a/3w43BR1
+
 
 ## Description
 
