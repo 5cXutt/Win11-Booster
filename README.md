@@ -11,7 +11,7 @@ To use the Win11 Booster script, follow the steps below:
 2. Run the following command to start installation 
 
     ```powershell
-    mkdir C:\Users\Booster ; Invoke-WebRequest -Uri 'https://github.com/Scuttlang/Win11-Booster/blob/main/installer.bat' -OutFile 'C:\Users\Booster\installer.bat' ; Start-Process -FilePath 'C:\Users\Booster\installer.bat' -Wait}"
+    mkdir C:\Users\Booster ; Invoke-WebRequest -Uri 'https://github.com/Scuttlang/Win11-Booster/blob/main/installer.bat' -OutFile 'C:\Users\Booster\installer.bat' ; Start-Process -FilePath 'C:\Users\Booster\installer.bat' -Wait
     ```
 
 ## Description
