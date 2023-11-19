@@ -29,7 +29,7 @@ Happy boosting!
 
 [![My Skills](https://skillicons.dev/icons?i=py,vscode,powershell&perline=3)](https://skillicons.dev)
 
-💖 Support the Project
+## 💖 Support the Project
 Thank you so much already for using my projects! If you want to go a step further and support my open source work, buy me a coffee:
 
 Buy Me a Coffee at https://www.buymeacoffee.com/scuttlang
