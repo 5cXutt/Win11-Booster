@@ -6,6 +6,13 @@ import time
 import os
 from colorama import init, Fore
 
+def run_command5():
+    command5 = [
+        'Checkpoint-Computer -Description Booster '
+]
+    for command in command5:
+        subprocess.run(['powershell', '-Command', command], shell=True)
+
 subprocess.run(['pip', 'install', 'colorama'])
 subprocess.run(['pip', 'install', 'keyboard'])
 subprocess.run(['pip', 'install', 'winreg'])
@@ -29,7 +36,7 @@ END-USER LICENSE AGREEMENT
 IMPORTANT-READ CAREFULLY: This End-User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and [Your Company Name] for the software product(s) provided with this EULA, which may include associated software components, media, printed materials, and "online" or electronic documentation ("Software"). By installing, copying, or otherwise using the Software, you agree to be bound by the terms of this EULA. If you do not agree to the terms of this EULA, do not install or use the Software.
 [Scuttlang </3 ]
 """
-
+  
 print(eula_text)
 
 def update_progress_bar(completed, goal):
@@ -221,11 +228,9 @@ def run_commands():
     '$adapterIndex = Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription -First 1 | Select-Object -Last 1',
     'Set-NetAdapterAdvancedProperty -InterfaceIndex $adapterIndex -DisplayName "Speed" -DisplayValue "1 Gbps"',
     'Remove-Item -Path *.log -Recurse -Force',
-    'netsh int tcp show global',
-    'netsh int tcp set global chimney=enabled',
     'netsh int tcp set heuristics disabled',
     'netsh int tcp set global autotuninglevel=normal',
-    'netsh int tcp set global congestionprovider=ctcp',
+    'netsh int tcp set supplemental custom congestionprovider=ctcp',
     'netsh interface tcp set heuristics disabled',
     'Clear-DnsClientCache',
     'Install-Module -Name PSWindowsUpdate -Force',
@@ -252,7 +257,7 @@ def run_commands():
         subprocess.run(['powershell', '-Command', command], shell=True)
 
 if __name__ == "__main__":
+    simulate_progress()
     modify_registry()
     modify_registryS()
     run_commands()
-    simulate_progress()
