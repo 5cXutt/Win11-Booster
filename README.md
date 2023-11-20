@@ -8,8 +8,9 @@ To use the Win11 Booster script, follow the steps below:
 
 ### Step 1: Download the script and execute .bat on Admin
 
-Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owners/Win11-Booster-mains.zip and extract the contents.
-
+'''powershell
+irm https://raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
+'''
 | Version |                                               |
 | ------- | --------------------------------------------- |
 | 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
