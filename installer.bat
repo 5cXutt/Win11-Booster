@@ -1,6 +1,8 @@
 @echo off
 cls
 color c
+echo "[+] Create a Restore Point"
+powershell -NoExit -Command "& {Checkpoint-Computer -Description Booster}"
 
 echo "[+] Create a directory on path C:\Users\Booster"
 mkdir C:\Users\Booster
