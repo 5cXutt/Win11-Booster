@@ -13,10 +13,6 @@ def run_command5():
     for command in command5:
         subprocess.run(['powershell', '-Command', command], shell=True)
 
-subprocess.run(['pip', 'install', 'colorama'])
-subprocess.run(['pip', 'install', 'keyboard'])
-subprocess.run(['pip', 'install', 'winreg'])
-
 init(autoreset=True)
 
 def is_admin():
@@ -41,7 +37,7 @@ print(eula_text)
 
 def update_progress_bar(completed, goal):
     progress = completed / goal
-    bar_length = 70
+    bar_length = 60
     completed_blocks = int(bar_length * progress)
     remaining_blocks = bar_length - completed_blocks
 
@@ -56,12 +52,10 @@ def simulate_progress():
     goal_value = 10
 
     for completed_value in range(goal_value + 1):
-        os.system('cls' if os.name == 'nt' else 'clear')
         progress_bar = update_progress_bar(completed_value, goal_value)
-        print(progress_bar)
-        time.sleep(0.5)
-
-    print("\nComplete!")
+        print("\r" + progress_bar, end="", flush=True)
+        time.sleep(0.2)
+    print("\n")
 
 
 def modify_registry():
@@ -121,11 +115,11 @@ def modify_registry():
     value_name = "HwSchMode"
     value_data = 2
 
-    #key_path = r"SYSTEM\CurrentControlSet\Services\Tcpip\Parameters"
-    #value_name = "TcpAckFrequency"
-    #value_data = 1
-    #value_name = "TCPNoDelay"
-    #value_data = 1
+    key_path = r"SYSTEM\CurrentControlSet\Services\Tcpip\Parameters"
+    value_name = "TcpAckFrequency"
+    value_data = 1
+    value_name = "TCPNoDelay"
+    value_data = 1
 
     key_path = r"SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces"
     value_name = "TCPDelAckTicks"
@@ -183,8 +177,6 @@ def modify_registry():
         print(f"Error setting registry DWORD value: {e}")
     finally:
         winreg.CloseKey(key)
-
-
 
 def modify_registryS():
     key_path = r"System\GameConfigStore"
@@ -250,6 +242,7 @@ def run_commands():
     'Dism /Online /Cleanup-Image /ScanHealth',
     'Dism /Online /Cleanup-Image /CheckHealth',
     'Repair-WindowsImage -Online -RestoreHealth',
+    'Clear-RecycleBin'
     'Restart-Computer -Force'
 ]
 
