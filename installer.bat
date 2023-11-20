@@ -26,7 +26,10 @@ if %errorlevel% eq 0 (
     )
     echo "[+] Python Installed."
 )
-
+echo "[+] Install Dependece us pip "
+pip install keyboard 
+pip install winreg 
+pip install colorama
 echo "[+] Running booster script"
 python C:\Users\Booster\booster.py
 if %errorlevel% neq 0 (
