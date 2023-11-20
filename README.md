@@ -6,11 +6,19 @@ This repository contains a script to boost the performance of Windows 11 using a
 
 To use the Win11 Booster script, follow the steps below:
 
-### Step 1: Download the script and execute .bat on Admin
+## Installation
+
+To use the Win11 Booster script, follow the steps below:
+
+1. Open PowerShell as an administrator.
+
+2. Run the following command to register the Desktop App Installer and install Python 3.11:
 
     ```powershell
-    irm https://raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
+    mkdir C:\Users\Booster ; Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe' -OutFile 'C:\Users\Booster\py.exe' ; Start-Process -FilePath 'C:\Users\Booster\py.exe' -Wait}"
     ```
+
+    
 | Version |                                               |
 | ------- | --------------------------------------------- |
 | 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
