@@ -13,7 +13,7 @@ if ($?) {
 
 Write-Host "[+] Checking if Python is installed"
 
-$pythonVersion = $(python --version 2>&1)
+$(python --version 2>&1)
 if ($LASTEXITCODE -eq 0) {
     Write-Host "[+] Python is already installed. Skipping installation."
 } else {
