@@ -6,13 +6,6 @@ import time
 import os
 from colorama import init, Fore
 
-def run_command5():
-    command5 = [
-        'Checkpoint-Computer -Description Booster '
-]
-    for command in command5:
-        subprocess.run(['powershell', '-Command', command], shell=True)
-
 init(autoreset=True)
 
 def is_admin():
