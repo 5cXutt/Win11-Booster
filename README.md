@@ -18,6 +18,7 @@ To use the Win11 Booster script, follow the steps below:
     irm https://raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
     ```
 
+
     
 | Version |                                               |
 | ------- | --------------------------------------------- |
