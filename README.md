@@ -8,7 +8,7 @@ To use the Win11 Booster script, follow the steps below:
 
 ### Step 1: Download the script and execute .bat on Admin
 
-Download the project [https://github.com/Scuttlang/Win11-Booster/releases/download/owner/Win11-Booster-main.zip](https://github.com/Scuttlang/Win11-Booster/releases/download/owners/Win11-Booster-mains.zip) and extract the contents.
+Download the project https://github.com/Scuttlang/Win11-Booster/releases/download/owners/Win11-Booster-mains.zip and extract the contents.
 
 | Version |                                               |
 | ------- | --------------------------------------------- |
