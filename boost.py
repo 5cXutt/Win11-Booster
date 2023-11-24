@@ -6,6 +6,13 @@ import time
 import os
 from colorama import init, Fore
 
+def run_command5():
+    command5 = [
+        'Checkpoint-Computer -Description Booster '
+]
+    for command in command5:
+        subprocess.run(['powershell', '-Command', command], shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
+
 init(autoreset=True)
 
 def is_admin():
@@ -23,7 +30,8 @@ else:
 eula_text = """
 END-USER LICENSE AGREEMENT
 IMPORTANT-READ CAREFULLY: This End-User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and [Your Company Name] for the software product(s) provided with this EULA, which may include associated software components, media, printed materials, and "online" or electronic documentation ("Software"). By installing, copying, or otherwise using the Software, you agree to be bound by the terms of this EULA. If you do not agree to the terms of this EULA, do not install or use the Software.
-[Scuttlang </3 ]
+
+Scuttlang </3 ]
 """
   
 print(eula_text)
@@ -191,19 +199,52 @@ def modify_registryS():
 
     try:
         winreg.SetValueEx(key, value_name, 0, winreg.REG_SZ, value_data)
-        print("Registry key and String value set successfully.")
     except Exception as e:
         print(f"Error setting registry String value: {e}")
     finally:
         winreg.CloseKey(key)
 
+
+def modify_registrysz():
+    key_path = r""
+    value_name = ""
+    value_data = ""  
+
+    key_path = r""
+    value_name = ""
+    value_data = ""  
+
+    key_path = r""
+    value_name = ""
+    value_data = ""  
+
+    key_path = r""
+    value_name = ""
+    value_data = ""  
+
+    key_path = r""
+    value_name = ""
+    value_data = ""  
+    
+    try:
+        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key_path, 0, winreg.KEY_SET_VALUE | winreg.KEY_WOW64_64KEY)
+    except FileNotFoundError:
+        key = winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, key_path)
+
+    try:
+        winreg.SetValueEx(key, value_name, 0, winreg.REG_SZ, value_data)
+    except Exception as e:
+        print(f"Errore durante l'impostazione del valore REG_SZ nel registro: {e}")
+    finally:
+        winreg.CloseKey(key)
+ù
 def run_commands():
     commands = [
     'powercfg /duplicatescheme 3c0050b9-c741-431c-b155-869aefed4a28',
     'powercfg /setactive 3c0050b9-c741-431c-b155-869aefed4a28'
     'bcdedit -set disabledynamictick yes',
     'bcdedit -set useplatformtick yes',
-    'defrag c: 0',
+    'defrag C: /O',
     'Stop-Process -Name explorer -Force',
     'Start-Process explorer',
     'Clear-DnsClientCache',
@@ -225,11 +266,9 @@ def run_commands():
     'Remove-Item -Path $env:TEMP -Recurse -Force',
     'New-Item -Path $env:TEMP -ItemType Directory',
     'takeown /f $env:TEMP -recurse -force',
-    'takeown /f "C:\Windows\Temp" /r /d y',
+    'takeown /f "C:\Windows\Temp" /r /a',
     'Remove-Item -Path "C:\Windows\Temp" -Recurse -Force',
     'New-Item -Path "C:\Windows\Temp" -ItemType Directory',
-    'takeown /f "C:\Windows\Temp" /r /d y',
-    'takeown /f $env:TEMP -recurse -force',
     'cleanmgr',
     'sfc /scannow',
     'Dism /Online /Cleanup-Image /ScanHealth',
@@ -240,10 +279,11 @@ def run_commands():
 ]
 
     for command in commands:
-        subprocess.run(['powershell', '-Command', command], shell=True)
+        subprocess.run(['powershell', '-Command', command], shell=True, creationflags=subprocess.CREATE_NO_WINDOW)
 
 if __name__ == "__main__":
     simulate_progress()
     modify_registry()
     modify_registryS()
+    modify_registrysz()
     run_commands()
