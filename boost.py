@@ -265,8 +265,6 @@ def run_commands():
     'Install-WindowsUpdate -AcceptAll', 
     'Remove-Item -Path $env:TEMP -Recurse -Force',
     'New-Item -Path $env:TEMP -ItemType Directory',
-    'takeown /f $env:TEMP -recurse -force',
-    'takeown /f "C:\Windows\Temp" /r /a',
     'Remove-Item -Path "C:\Windows\Temp" -Recurse -Force',
     'New-Item -Path "C:\Windows\Temp" -ItemType Directory',
     'cleanmgr',
