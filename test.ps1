@@ -58,11 +58,10 @@ Write-Host ""
 
 $scelta = $opzioni[$opzioneSelezionata]
 
-if ($scelta -eq "Sì") {
-    Write-Host "Hai scelto Sì."
-} else {
+if ($scelta -eq "X  (Refiute Eula)") {
     Write-Host "Hai scelto No.444444"
     exit
+} else {
+    Write-Host "Hai scelto Sì."
 }
-
 Stop-Transcript
