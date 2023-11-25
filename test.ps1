@@ -61,7 +61,7 @@ $scelta = $opzioni[$opzioneSelezionata]
 if ($scelta -eq "Sì") {
     Write-Host "Hai scelto Sì."
 } else {
-    Write-Host "Hai scelto No."
+    Write-Host "Hai scelto No.444444"
     exit
 }
 
