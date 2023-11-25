@@ -63,39 +63,5 @@ if ($scelta -eq "Sì") {
 } else {
     Write-Host "Hai scelto No."
 }
-Function Show-Menu {
-    $opzioni = @(
-        "Info Pc",
-        "Create a restore point",
-        "Clean File Temporary",
-        "Boost Wifi",
-        "Boost Performance",
-        "Update System and fix",
-        "Speed Test",
-        "Exit"
-    )
-    $Selected = 0
-    
-    do {
-        Clear-Host
-        for ($i = 0; $i -lt $opzioni.Count; $i++) {
-            if ($i -eq $Selected) {
-                Write-Host ("[>] " + $opzioni[$i]) -ForegroundColor DarkMagenta 
-            } else {
-                Write-Host ("[ ] " + $opzioni[$i]) -ForegroundColor DarkMagenta
-            }
-        }
-    
-        $Key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
-    
-        switch ($Key) {
-            38 { $Selected = [math]::Max(0, $Selected - 1) } 
-            40 { $Selected = [math]::Min($opzioni.Count - 1, $Selected + 1) } 
-        }
-    } while ($Key -ne 13)  
-    
-    return $Selected
-}
-
 
 Stop-Transcript
