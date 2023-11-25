@@ -62,6 +62,7 @@ if ($scelta -eq "Sì") {
     Write-Host "Hai scelto Sì."
 } else {
     Write-Host "Hai scelto No."
+    exit
 }
 
 Stop-Transcript
