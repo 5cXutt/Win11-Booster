@@ -1,9 +1,3 @@
-if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Host "Questo script deve essere eseguito con privilegi di amministratore" -ForegroundColor Red
-    Start-Sleep -Seconds 2
-    exit
-}
-
 if (-not (Get-Module -Name PSReadLine -ListAvailable)) {
     Install-Module -Name PSReadLine -Force -Scope CurrentUser
 }
