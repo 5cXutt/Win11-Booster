@@ -1,44 +1,164 @@
 Clear-Host
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+	Write-Host "Questo script deve essere eseguito con privilegi di amministratore" -ForegroundColor Red
+	Start-Sleep -Seconds 2
+	exit
+}
+if (-not (Get-Module -Name PSWindowsUpdate -ListAvailable)) {
+	Install-Module -Name PSWindowsUpdate -Force
+}
+Checkpoint-Computer -Description Booster 
+function Update-ProgressBar {
+	param (
+		 [int]$Completed,
+		 [int]$Goal
+	)
 
-Write-Host "[+] Create a directory on path C:\Users\Booster"
-New-Item -ItemType Directory -Path C:\Users\Booster -ErrorAction SilentlyContinue
-if ($?) {
-    Write-Host "[+] Directory Created. Press Enter to continue."
-    Read-Host
-} else {
-    Write-Host "[!] Failed to create directory. Press Enter to exit."
-    Read-Host
-    exit
+	$Progress = $Completed / $Goal
+	$BarLength = 90
+	$CompletedBlocks = [math]::Round($BarLength * $Progress)
+	$RemainingBlocks = $BarLength - $CompletedBlocks
+
+	$ProgressBar = "[" + "=" * $CompletedBlocks + "-" * $RemainingBlocks + "]"
+	$Percentage = [math]::Round($Progress * 100)
+	$ProgressText = "$ProgressBar $Percentage%"
+
+	return $ProgressText
 }
 
-Write-Host "[+] Checking if Python is installed"
+function Simulate-Progress {
 
-$(python --version 2>&1)
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "[+] Python is already installed. Skipping installation."
-} else {
-    Write-Host "[+] Install Prerequisite for Python"
-    Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe' -OutFile 'C:\Users\Booster\py.exe'
-    Start-Process -FilePath 'C:\Users\Booster\py.exe' -Wait
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "[!] Failed to install Python. Press Enter to exit."
-        Read-Host
-        exit
-    }
-    Write-Host "[+] Python Installed."
+	$GoalValue = 10
+
+	for ($CompletedValue = 0; $CompletedValue -le $GoalValue; $CompletedValue++) {
+		 $ProgressBar = Update-ProgressBar -Completed $CompletedValue -Goal $GoalValue
+		 Write-Host $ProgressBar -NoNewline
+		 Start-Sleep -Seconds 0.6
+		 Write-Host "`r"
+	}
+
+	Write-Host "`n"
 }
 
-Write-Host "[+] Install Dependencies using pip"
-pip install keyboard, winreg, colorama
+Simulate-Progress
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/Scuttlang/Win11-Booster/main/boost.py' -OutFile 'C:\Users\Booster\booster.py'
+function Modify-Registry {
+	param (
+		 [string]$keyPath,
+		 [string]$valueName,
+		 [int]$valueData
+	)
 
-Write-Host "[+] Running booster script"
-python C:\Users\Booster\booster.py 
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "[!] Failed to run booster script. Press Enter to exit."
-    Read-Host
-    exit
+	try {
+		 $key = Get-Item -LiteralPath "HKLM:\$keyPath" -ErrorAction Stop
+	} catch {
+		 $key = New-Item -Path "HKLM:\$keyPath" -Force
+	}
+
+	try {
+		 Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
+		 Write-Output "Registry key and DWORD value set successfully."
+	} catch {
+		 Write-Error "Error setting registry DWORD value: $_"
+	}
 }
-Write-Host "[+] Press Enter to exit."
-Read-Host
+
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -valueName "SearchOrderConfig" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control" -valueName "WaitToKillServiceTimeout" -valueData 2000
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\Session Manager\Power" -valueName "HiberbootEnabled" -valueData 0
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -valueName "NetworkThrottlingIndex" -valueData 4294967295
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -valueName "SystemResponsiveness" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "autodisconnect" -valueData 4294967295
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "Size" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "EnableOplocks" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "IRPStackSize" -valueData 32
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "SharingViolationDelay" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -valueName "SharingViolationRetries" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TcpAckFrequency" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPNoDelay" -valueData 0
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "GPU Priority" -valueData 8
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "Priority" -valueData 6
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "Scheduling Category" -valueData "High"
+Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "SFIO Priority" -valueData "High"
+Modify-Registry -keyPath "SOFTWARE\Policies\Microsoft\Windows\Psched" -valueName "NonBestEffortLimit" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -valueName "HwSchMode" -valueData 2
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -valueName "TcpAckFrequency" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -valueName "TCPNoDelay" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPDelAckTicks" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPNoDelay" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TcpAckFrequency" -valueData 1
+Modify-Registry -keyPath "SOFTWARE\Microsoft\MSMQ\Parameters" -valueName "TCPNoDelay" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "LocalPriority" -valueData 4
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "HostsPriority" -valueData 5
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "DnsPriority" -valueData 6
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "NetbtPriority" -valueData 7
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "autodisconnect" -valueData 4294967295
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "Size" -valueData 3
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "EnableOplocks" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "IRPStackSize" -valueData 32
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "EnableOplocks" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "SharingViolationDelay" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "SharingViolationRetries" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\PriorityControl" -valueName "ConvertibleSlateMode" -valueData 0
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\PriorityControl" -valueName "Win32PrioritySeparation" -valueData 56
+
+function Modify-RegistryString {
+	param (
+		 [string]$keyPath,
+		 [string]$valueName,
+		 [string]$valueData
+	)
+
+	try {
+		 $key = Get-Item -LiteralPath "HKCU:\$keyPath" -ErrorAction Stop
+	} catch {
+		 $key = New-Item -Path "HKCU:\$keyPath" -Force
+	}
+
+	try {
+		 Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
+		 Write-Output "Registry key and String value set successfully."
+	} catch {
+		 Write-Error "Error setting registry String value: $_"
+	}
+}
+
+Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_DXGIHonorFSEWindowsCompatible" -valueData "0"
+Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_EFSEFeatureFlags" -valueData "0"
+Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_Enable" -valueData "1"
+Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_FSEBehaviorMode" -valueData "2"
+Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_HonorUserFSEBehaviorMode" -valueData "0"
+
+
+Remove-Item -Path *.log -Recurse -Force
+Clear-DnsClientCache
+netsh int tcp set global autotuninglevel=disabled
+netsh winsock reset
+cd \
+$adapterIndex = Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription -First 2 | Select-Object -Last 1
+Set-NetAdapterAdvancedProperty -InterfaceIndex $adapterIndex -DisplayName "Speed" -DisplayValue "1 Gbps"
+netsh int tcp set heuristics disabled
+netsh int tcp set global autotuninglevel=normal
+netsh int tcp set supplemental custom congestionprovider=ctcp
+netsh interface tcp set heuristics disabled
+Clear-DnsClientCache
+Import-Module -Name PSWindowsUpdate
+Get-WindowsUpdate
+Install-WindowsUpdate -AcceptAll
+Remove-Item -Path $env:TEMP -Recurse -Force
+New-Item -Path $env:TEMP -ItemType Directory
+takeown /f $env:TEMP -recurse -force
+takeown /f "C:\Windows\Temp" /r /a
+Remove-Item -Path "C:\Windows\Temp" -Recurse -Force
+New-Item -Path "C:\Windows\Temp" -ItemType Directory
+cleanmgr
+sfc /scannow
+Dism /Online /Cleanup-Image /ScanHealth
+Dism /Online /Cleanup-Image /CheckHealth
+Repair-WindowsImage -Online -RestoreHealth
+Clear-RecycleBin
+$confirmation = [System.Windows.Forms.MessageBox]::Show("Restart computer?", "Restart-Computer", 'YesNo', 'Question')
+
+if ($confirmation -eq 'Yes') {
+    Restart-Computer -Force
+}
