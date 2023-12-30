@@ -15,7 +15,7 @@ To use the Win11 Booster script, follow the steps below:
 2. Run the  command
 
     ```powershell
-    irm bit.ly/Win11-Booster | iex
+    irm bit.ly/47flYEN | iex
     ```
 
 
