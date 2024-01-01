@@ -4,6 +4,9 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 	Start-Sleep -Seconds 2
 	exit
 }
+if (-not (Get-Module -Name PSWindowsUpdate -ListAvailable)) {
+	Install-Module -Name PSWindowsUpdate -Force
+}
 Checkpoint-Computer -Description Booster 
 function Update-ProgressBar {
 	param (
