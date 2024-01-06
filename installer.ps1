@@ -134,7 +134,7 @@ Remove-Item -Path *.log -Recurse -Force
 Clear-DnsClientCache
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
-cd \
+Update-Driver -AllDrivers
 $adapterIndex = Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription -First 2 | Select-Object -Last 1
 Set-NetAdapterAdvancedProperty -InterfaceIndex $adapterIndex -DisplayName "Speed" -DisplayValue "1 Gbps"
 netsh int tcp set heuristics disabled
