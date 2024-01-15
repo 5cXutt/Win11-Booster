@@ -153,8 +153,6 @@ takeown /f "C:\Windows\Temp" /r /a
 Remove-Item -Path "C:\Windows\Temp" -Recurse -Force
 New-Item -Path "C:\Windows\Temp" -ItemType Directory
 cleanmgr
-cmd /c "FOR %F IN ("%SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~*.mum") DO (DISM /Online /NoRestart /Add-Package:"%F")"
-cmd /c "FOR %F IN ("%SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") DO (DISM /Online /NoRestart /Add-Package:"%F")"
 gpedit.msc
 gpupdate /force
 sfc /scannow
