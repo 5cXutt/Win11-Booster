@@ -1,68 +1,94 @@
-Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Forms 
 Clear-Host
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-	Write-Host "Questo script deve essere eseguito con privilegi di amministratore" -ForegroundColor Red
-	Start-Sleep -Seconds 2
-	exit
+function Check-Administrator {
+    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        Write-Host "This script must be run with administrator privileges" -ForegroundColor Red
+        Start-Sleep -Seconds 2
+        exit
+    }
 }
-if (-not (Get-Module -Name PSWindowsUpdate -ListAvailable)) {
-	Install-Module -Name PSWindowsUpdate -Force
+
+function Install-PSWindowsUpdateModule {
+    if (-not (Get-Module -Name PSWindowsUpdate -ListAvailable)) {
+        Install-Module -Name PSWindowsUpdate -Force
+    }
 }
-Checkpoint-Computer -Description Booster 
+
 function Update-ProgressBar {
-	param (
-		 [int]$Completed,
-		 [int]$Goal
-	)
+    param (
+        [int]$Completed,
+        [int]$Goal
+    )
 
-	$Progress = $Completed / $Goal
-	$BarLength = 90
-	$CompletedBlocks = [math]::Round($BarLength * $Progress)
-	$RemainingBlocks = $BarLength - $CompletedBlocks
+    $Progress = $Completed / $Goal
+    $BarLength = 90
+    $CompletedBlocks = [math]::Round($BarLength * $Progress)
+    $RemainingBlocks = $BarLength - $CompletedBlocks
 
-	$ProgressBar = "[" + "=" * $CompletedBlocks + "-" * $RemainingBlocks + "]"
-	$Percentage = [math]::Round($Progress * 100)
-	$ProgressText = "$ProgressBar $Percentage%"
+    $ProgressBar = "[" + "=" * $CompletedBlocks + "-" * $RemainingBlocks + "]"
+    $Percentage = [math]::Round($Progress * 100)
+    $ProgressText = "$ProgressBar $Percentage%"
 
-	return $ProgressText
+    return $ProgressText
 }
 
 function Simulate-Progress {
+    $GoalValue = 10
 
-	$GoalValue = 10
+    for ($CompletedValue = 0; $CompletedValue -le $GoalValue; $CompletedValue++) {
+        $ProgressBar = Update-ProgressBar -Completed $CompletedValue -Goal $GoalValue
+        Write-Host $ProgressBar -NoNewline
+        Start-Sleep -Seconds 0.6
+        Write-Host "`r"
+    }
 
-	for ($CompletedValue = 0; $CompletedValue -le $GoalValue; $CompletedValue++) {
-		 $ProgressBar = Update-ProgressBar -Completed $CompletedValue -Goal $GoalValue
-		 Write-Host $ProgressBar -NoNewline
-		 Start-Sleep -Seconds 0.6
-		 Write-Host "`r"
-	}
-
-	Write-Host "`n"
+    Write-Host "`n"
 }
-
-Simulate-Progress
 
 function Modify-Registry {
-	param (
-		 [string]$keyPath,
-		 [string]$valueName,
-		 [int]$valueData
-	)
+    param (
+        [string]$keyPath,
+        [string]$valueName,
+        [int]$valueData
+    )
 
-	try {
-		 $key = Get-Item -LiteralPath "HKLM:\$keyPath" -ErrorAction Stop
-	} catch {
-		 $key = New-Item -Path "HKLM:\$keyPath" -Force
-	}
+    try {
+        $key = Get-Item -LiteralPath "HKLM:\$keyPath" -ErrorAction Stop
+    } catch {
+        $key = New-Item -Path "HKLM:\$keyPath" -Force
+    }
 
-	try {
-		 Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
-		 Write-Output "Registry key and DWORD value set successfully."
-	} catch {
-		 Write-Error "Error setting registry DWORD value: $_"
-	}
+    try {
+        Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
+        Write-Output "Registry key and DWORD value set successfully."
+    } catch {
+        Write-Error "Error setting registry DWORD value: $_"
+    }
 }
+
+function Modify-RegistryString {
+    param (
+        [string]$keyPath,
+        [string]$valueName,
+        [string]$valueData
+    )
+
+    try {
+        $key = Get-Item -LiteralPath "HKCU:\$keyPath" -ErrorAction Stop
+    } catch {
+        $key = New-Item -Path "HKCU:\$keyPath" -Force
+    }
+
+    try {
+        Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
+        Write-Output "Registry key and String value set successfully."
+    } catch {
+        Write-Error "Error setting registry String value: $_"
+    }
+}
+Check-Administrator
+Install-PSWindowsUpdateModule
+Simulate-Progress
 
 Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -valueName "SearchOrderConfig" -valueData 0
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control" -valueName "WaitToKillServiceTimeout" -valueData 2000
@@ -102,34 +128,11 @@ Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Paramet
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "SharingViolationRetries" -valueData 1
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\PriorityControl" -valueName "ConvertibleSlateMode" -valueData 0
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\PriorityControl" -valueName "Win32PrioritySeparation" -valueData 56
-
-function Modify-RegistryString {
-	param (
-		 [string]$keyPath,
-		 [string]$valueName,
-		 [string]$valueData
-	)
-
-	try {
-		 $key = Get-Item -LiteralPath "HKCU:\$keyPath" -ErrorAction Stop
-	} catch {
-		 $key = New-Item -Path "HKCU:\$keyPath" -Force
-	}
-
-	try {
-		 Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
-		 Write-Output "Registry key and String value set successfully."
-	} catch {
-		 Write-Error "Error setting registry String value: $_"
-	}
-}
-
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_DXGIHonorFSEWindowsCompatible" -valueData "0"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_EFSEFeatureFlags" -valueData "0"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_Enable" -valueData "1"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_FSEBehaviorMode" -valueData "2"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_HonorUserFSEBehaviorMode" -valueData "0"
-
 
 Remove-Item -Path *.log -Recurse -Force
 Clear-DnsClientCache
@@ -160,6 +163,7 @@ Dism /Online /Cleanup-Image /ScanHealth
 Dism /Online /Cleanup-Image /CheckHealth
 Repair-WindowsImage -Online -RestoreHealth
 msconfig
+$confirmation = [System.Windows.Forms.MessageBox]::Show("
 $confirmation = [System.Windows.Forms.MessageBox]::Show("Restart computer?", "Restart-Computer", 'YesNo', 'Question')
 
 if ($confirmation -eq 'Yes') {
