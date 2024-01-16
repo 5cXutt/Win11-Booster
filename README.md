@@ -15,12 +15,12 @@ To use the Win11 Booster script, follow the steps below:
 2. Run the  command
 
     ```powershell
-    irm bit.ly/47flYEN | iex
+    irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
     ```
 
 
     
-| Version |                                               |
+| Version |                                              |
 | ------- | --------------------------------------------- |
 | 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
 | Beta    | :x:                                          |
