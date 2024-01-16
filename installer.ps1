@@ -86,6 +86,7 @@ function Modify-RegistryString {
         Write-Error "Error setting registry String value: $_"
     }
 }
+Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe
 Check-Administrator
 Install-PSWindowsUpdateModule
 Simulate-Progress
@@ -149,6 +150,7 @@ Clear-DnsClientCache
 Import-Module -Name PSWindowsUpdate
 Get-WindowsUpdate
 Install-WindowsUpdate -AcceptAll
+winget upgrade --all
 Remove-Item -Path $env:TEMP -Recurse -Force
 New-Item -Path $env:TEMP -ItemType Directory
 takeown /f $env:TEMP -recurse -force
