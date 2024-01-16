@@ -163,7 +163,6 @@ Dism /Online /Cleanup-Image /ScanHealth
 Dism /Online /Cleanup-Image /CheckHealth
 Repair-WindowsImage -Online -RestoreHealth
 msconfig
-$confirmation = [System.Windows.Forms.MessageBox]::Show("
 $confirmation = [System.Windows.Forms.MessageBox]::Show("Restart computer?", "Restart-Computer", 'YesNo', 'Question')
 
 if ($confirmation -eq 'Yes') {
