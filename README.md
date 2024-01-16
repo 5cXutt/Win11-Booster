@@ -37,7 +37,7 @@ Feel free to contribute to this repository and customize the script according to
 Happy boosting!
 
 
-[![My Skills](https://skillicons.dev/icons?i=py,vscode,powershell&perline=3)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=vscode,powershell&perline=3)](https://skillicons.dev)
 
 ## 💖 Support the Project
 Thank you so much already for using my projects! If you want to go a step further and support my open source work, buy me a coffee:
