@@ -166,7 +166,7 @@ foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windo
 foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") {
     DISM /Online /NoRestart /Add-Package:"$F"
 }
-gpedit.msc
+Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched -Name NonBestEffortLimit -Value 0
 gpupdate /force
 sfc /scannow
 Dism /Online /Cleanup-Image /ScanHealth
