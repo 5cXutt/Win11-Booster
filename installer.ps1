@@ -156,13 +156,21 @@ takeown /f "C:\Windows\Temp" /r /a
 Remove-Item -Path "C:\Windows\Temp" -Recurse -Force
 New-Item -Path "C:\Windows\Temp" -ItemType Directory
 cleanmgr
+msconfig
+foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~*.mum") {
+    DISM /Online /NoRestart /Add-Package:"$F"
+}
+
+foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") {
+    DISM /Online /NoRestart /Add-Package:"$F"
+}
 gpedit.msc
 gpupdate /force
 sfc /scannow
 Dism /Online /Cleanup-Image /ScanHealth
 Dism /Online /Cleanup-Image /CheckHealth
 Repair-WindowsImage -Online -RestoreHealth
-msconfig
+
 $confirmation = [System.Windows.Forms.MessageBox]::Show("Restart computer?", "Restart-Computer", 'YesNo', 'Question')
 
 if ($confirmation -eq 'Yes') {
