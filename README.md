@@ -1,6 +1,6 @@
 # Win11 Booster
 
-This repository contains a script to boost the performance of Windows 11 using a set of PowerShell and Python commands. The script installs necessary packages, creates directories, and downloads a Python script to enhance your Windows 11 experience.
+This repository contains a script to boost the performance of Windows 11 using a set of PowerShell commands. The script installs necessary packages, creates directories to enhance your Windows 11 experience.
 
 ## Installation
 
