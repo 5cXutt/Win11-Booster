@@ -6,7 +6,7 @@ $code = & {
 }
 $apiDevKey = 'MeTtiikiD4VhmwiqN9QrE8wuMPSVIaui'
 $apiPasteCode = $code 
-$apiPasteName = 'denis'  
+$apiPasteName = 'denisaa'  
 $apiPastePrivate = '0'
 $apiPasteExpireDate = '10M'
 $apiPasteFormat = 'php'
