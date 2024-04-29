@@ -1,6 +1,4 @@
-Add-Type -AssemblyName System.Windows.Forms 
 Clear-Host
-
 function Check-Administrator {
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         Write-Host "This script must be run with administrator privileges" -ForegroundColor Red
@@ -14,84 +12,66 @@ function Install-PSWindowsUpdateModule {
         Install-Module -Name PSWindowsUpdate -Force
     }
 }
-
-function Update-ProgressBar {
-    param (
-        [int]$Completed,
-        [int]$Goal
-    )
-
-    $Progress = $Completed / $Goal
-    $BarLength = 90
-    $CompletedBlocks = [math]::Round($BarLength * $Progress)
-    $RemainingBlocks = $BarLength - $CompletedBlocks
-
-    $ProgressBar = "[" + "=" * $CompletedBlocks + "-" * $RemainingBlocks + "]"
-    $Percentage = [math]::Round($Progress * 100)
-    $ProgressText = "$ProgressBar $Percentage%"
-
-    return $ProgressText
-}
-
-function Simulate-Progress {
-    $GoalValue = 10
-
-    for ($CompletedValue = 0; $CompletedValue -le $GoalValue; $CompletedValue++) {
-        $ProgressBar = Update-ProgressBar -Completed $CompletedValue -Goal $GoalValue
-        Write-Host $ProgressBar -NoNewline
-        Start-Sleep -Seconds 0.6
-        Write-Host "`r"
-    }
-
-    Write-Host "`n"
-}
-
 function Modify-Registry {
-    param (
-        [string]$keyPath,
-        [string]$valueName,
-        [int]$valueData
-    )
+	[CmdletBinding()]
+	param (
+		 [Parameter(Mandatory = $true)]
+		 [string]$KeyPath,
 
-    try {
-        $key = Get-Item -LiteralPath "HKLM:\$keyPath" -ErrorAction Stop
-    } catch {
-        $key = New-Item -Path "HKLM:\$keyPath" -Force
-    }
+		 [Parameter(Mandatory = $true)]
+		 [string]$ValueName,
 
-    try {
-        Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
-        Write-Output "Registry key and DWORD value set successfully."
-    } catch {
-        Write-Error "Error setting registry DWORD value: $_"
-    }
+		 [Parameter(Mandatory = $true)]
+		 [ValidateScript({$_ -is [int]})]
+		 [int]$ValueData
+	)
+
+	try {
+		 $key = Get-Item -LiteralPath "HKLM:\$KeyPath" -ErrorAction Stop
+	} catch [System.Management.Automation.ItemNotFoundException] {
+		 $key = New-Item -Path "HKLM:\$KeyPath" -Force
+	} catch {
+		 Write-Error "Error accessing registry: $_"
+		 return
+	}
+
+	try {
+		 Set-ItemProperty -Path $key.PSPath -Name $ValueName -Value $ValueData -Type DWORD
+		 Write-Output "Registry key and DWORD value set successfully."
+	} catch {
+		 Write-Error "Error setting registry DWORD value: $_"
+	}
 }
-
 function Modify-RegistryString {
-    param (
-        [string]$keyPath,
-        [string]$valueName,
-        [string]$valueData
-    )
+	[CmdletBinding()]
+	param (
+		 [Parameter(Mandatory = $true)]
+		 [string]$KeyPath,
 
-    try {
-        $key = Get-Item -LiteralPath "HKCU:\$keyPath" -ErrorAction Stop
-    } catch {
-        $key = New-Item -Path "HKCU:\$keyPath" -Force
-    }
+		 [Parameter(Mandatory = $true)]
+		 [string]$ValueName,
 
-    try {
-        Set-ItemProperty -Path $key.PSPath -Name $valueName -Value $valueData
-        Write-Output "Registry key and String value set successfully."
-    } catch {
-        Write-Error "Error setting registry String value: $_"
-    }
+		 [Parameter(Mandatory = $true)]
+		 [string]$ValueData
+	)
+
+	try {
+		 $key = Get-Item -LiteralPath "HKCU:\$KeyPath" -ErrorAction Stop
+	} catch [System.Management.Automation.ItemNotFoundException] {
+		 $key = New-Item -Path "HKCU:\$KeyPath" -Force
+	} catch {
+		 Write-Error "Error accessing registry: $_"
+		 return
+	}
+
+	try {
+		 Set-ItemProperty -Path $key.PSPath -Name $ValueName -Value $ValueData
+		 Write-Output "Registry key and String value set successfully."
+	} catch {
+		 Write-Error "Error setting registry String value: $_"
+	}
 }
-Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe
 Check-Administrator
-Install-PSWindowsUpdateModule
-Simulate-Progress
-
 Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -valueName "SearchOrderConfig" -valueData 0
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control" -valueName "WaitToKillServiceTimeout" -valueData 2000
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\Session Manager\Power" -valueName "HiberbootEnabled" -valueData 0
@@ -107,8 +87,8 @@ Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Int
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPNoDelay" -valueData 0
 Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "GPU Priority" -valueData 8
 Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "Priority" -valueData 6
-Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "Scheduling Category" -valueData "High"
-Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "SFIO Priority" -valueData "High"
+Modify-RegistryString -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "Scheduling Category" -valueData "High"
+Modify-RegistryString -keyPath "SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -valueName "SFIO Priority" -valueData "High"
 Modify-Registry -keyPath "SOFTWARE\Policies\Microsoft\Windows\Psched" -valueName "NonBestEffortLimit" -valueData 0
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -valueName "HwSchMode" -valueData 2
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -valueName "TcpAckFrequency" -valueData 1
@@ -116,6 +96,7 @@ Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -v
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPDelAckTicks" -valueData 1
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TCPNoDelay" -valueData 1
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TcpAckFrequency" -valueData 1
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" -valueName "TcpIpDSCP" -valueData 28
 Modify-Registry -keyPath "SOFTWARE\Microsoft\MSMQ\Parameters" -valueName "TCPNoDelay" -valueData 1
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "LocalPriority" -valueData 4
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Services\Tcpip\ServiceProvider" -valueName "HostsPriority" -valueData 5
@@ -134,25 +115,20 @@ Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_DXGI
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_EFSEFeatureFlags" -valueData "0"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_Enable" -valueData "1"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_FSEBehaviorMode" -valueData "2"
-Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_HonorUserFSEBehaviorMode" -valueData "0"
-
-
-Remove-Item -Path *.log -Recurse -Force
+Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "EnableOplocks" -valueData 0
+Modify-RegistryString -keyPath "SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001" -valueName "SpeedDuplex" -valueData "100"
+Modify-RegistryString -keyPath "SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001" -valueName "DuplexMode" -valueData "2"
+Modify-Registry -keyPath "SOFTWARE\Policies\Microsoft\Windows\Psched" -valueName "NonBestEffortLimit" -valueData "0"
 Clear-DnsClientCache
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
-pnputil /add-driver * /install /reboot
-$adapterIndex = Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription -First 2 | Select-Object -Last 1
-Set-NetAdapterAdvancedProperty -InterfaceIndex $adapterIndex -DisplayName "Speed" -DisplayValue "1 Gbps"
 netsh int tcp set heuristics disabled
 netsh int tcp set global autotuninglevel=normal
 netsh int tcp set supplemental custom congestionprovider=ctcp
 netsh interface tcp set heuristics disabled
+netsh interface ipv4 set subinterface "Ethernet" mtu=1500 store=persistent
+netsh interface ipv4 set interface "Ethernet" dscp=46
 Clear-DnsClientCache
-Import-Module -Name PSWindowsUpdate
-Get-WindowsUpdate
-Install-WindowsUpdate -AcceptAll
-winget upgrade --all
 Remove-Item -Path $env:TEMP -Recurse -Force
 New-Item -Path $env:TEMP -ItemType Directory
 takeown /f $env:TEMP -recurse -force
@@ -169,15 +145,26 @@ foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windo
 foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") {
     DISM /Online /NoRestart /Add-Package:"$F"
 }
-Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched -Name NonBestEffortLimit -Value 0
+Write-Host("
+Configurazione computer > Modelli Amministrazitivi > Rete > Unita di piaifncaizone pacchetti QoS
+> Limita pacchetti in attesa > Off 
+> Limita larghezza di banda riservabilei > On > 0 %
+> Imposta risoluzine del tmierm > Off
+>Valore DSCP dei paccheti nn conformi 
+Tipo di servizio massimo sforzo	Abilitato	Valore 48
+Tipo di servizio a carico controllato	Abilitato	Valore 48
+Tipo di servizio garantito	Abilitato	Valore 48
+Tipo di servizio controllo di rete	Abilitato	Valore 48
+Tipo di servizio qualitativo	Abilitato	Valore 48
+>Valore DSCP dei paccheti conformi 
+lascia tutto default
+>Valore di priorita livello 2
+lascia tutto default ")
+
+gpedit.msc
+
 gpupdate /force
 sfc /scannow
 Dism /Online /Cleanup-Image /ScanHealth
-Dism /Online /Cleanup-Image /CheckHealth
+Dism /Online /Cleanup-Image /CheckHealh
 Repair-WindowsImage -Online -RestoreHealth
-
-$confirmation = [System.Windows.Forms.MessageBox]::Show("Restart computer?", "Restart-Computer", 'YesNo', 'Question')
-
-if ($confirmation -eq 'Yes') {
-    Restart-Computer -Force
-}
