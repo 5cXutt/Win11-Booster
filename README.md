@@ -4,12 +4,6 @@ This repository contains a script to boost the performance of Windows 11 using a
 
 ## Installation
 
-To use the Win11 Booster script, follow the steps below:
-
-## Installation
-
-To use the Win11 Booster script, follow the steps below:
-
 ![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=16&pause=1000&color=F73FCD&repeat=false&random=false&width=435&lines=1.+Open+PowerShell+as+an+administrator.+and+run+this+command)
 
 | Version |                                              |
