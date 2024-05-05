@@ -118,7 +118,7 @@ Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_EFSE
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_Enable" -valueData "1"
 Modify-RegistryString -keyPath "System\GameConfigStore" -valueName "GameDVR_FSEBehaviorMode" -valueData "2"
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\services\LanmanServer\Parameters" -valueName "EnableOplocks" -valueData 0
-Modify-RegistryString -keyPath "SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001" -valueName "SpeedDuplex" -valueData "100"
+Modify-RegistryString -keyPath "SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001" -valueName "SpeedDuplex" -valueData "1000"
 Modify-RegistryString -keyPath "SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001" -valueName "DuplexMode" -valueData "2"
 Modify-Registry -keyPath "SOFTWARE\Policies\Microsoft\Windows\Psched" -valueName "NonBestEffortLimit" -valueData "0"
 Clear-DnsClientCache
