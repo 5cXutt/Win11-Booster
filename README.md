@@ -18,11 +18,7 @@ irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
 
 ## Description
 
-The Win11 Booster script automates the process of optimizing your Windows 11 system for enhanced performance. It registers the Desktop App Installer, installs Python 3.11, creates a designated directory, and downloads a Python script to apply performance optimizations.
-
-**Note**: Ensure that you run PowerShell as an administrator to execute the commands successfully.
-
-Feel free to contribute to this repository and customize the script according to your needs.
+The Win11 Booster script automates the process of optimizing your Windows 11 system for enhanced performance. 
 
 Happy boosting!
 
