@@ -23,7 +23,7 @@ The Win11 Booster script automates the process of optimizing your Windows 11 sys
 Happy boosting!
 
 
-[![My Skills](https://skillicons.dev/icons?i=vscode,powershell&perline=3)](https://skillicons.dev)
+![My Skills](https://skillicons.dev/icons?i=vscode,powershell,github,windows&perline=4)
 
 ## 💖 Support the Project
 Thank you so much already for using my projects! If you want to go a step further and support my open source work, buy me a coffee:
