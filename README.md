@@ -4,7 +4,7 @@ This repository contains a script to boost the performance of Windows 11 using a
 
 ## Installation
 
-![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=15&pause=1000&color=F73FCD&repeat=false&random=false&width=435&lines=-%3E+Open+PowerShell+(admin)+and+run+this+command)
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=15&pause=1000&color=F73FCD&repeat=true&random=false&width=435&lines=-%3E+Open+PowerShell+(admin)+and+run+this+command)
 
 ```powershell
 irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
