@@ -4,8 +4,7 @@ This repository contains a script to boost the performance of Windows 11 using a
 
 ## Installation
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=15&pause=1000&color=F73FCD&repeat=false&random=false&width=435&lines=1.+Open+PowerShell+as+an+administrator+and+run+this+command)](https://git.io/typing-svg)
-| Version |                                              |
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=15&pause=1000&color=F73FCD&repeat=false&random=false&width=435&lines=Open+PowerShell+(admin)+and+run+this+command)](https://git.io/typing-svg)| Version |                                              |
 | ------- | --------------------------------------------- |
 | 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
 | Beta    | :x:                                          |
