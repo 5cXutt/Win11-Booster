@@ -1,4 +1,4 @@
-# Win11 Booster
+# ![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&pause=1000&random=false&width=435&lines=Win11+Booster+%F0%9F%9A%80)
 
 This repository contains a script to boost the performance of Windows 11 using a set of PowerShell commands. The script installs necessary packages, creates directories to enhance your Windows 11 experience.
 
