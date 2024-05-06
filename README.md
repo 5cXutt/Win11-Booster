@@ -15,13 +15,6 @@ irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
 | Beta    | :x:                                          |
 
 
-## Description
-
-The Win11 Booster script automates the process of optimizing your Windows 11 system for enhanced performance. 
-
-Happy boosting!
-
-
 ![My Skills](https://skillicons.dev/icons?i=vscode,powershell,github,windows&perline=4)
 
 ## 💖 Support the Project
