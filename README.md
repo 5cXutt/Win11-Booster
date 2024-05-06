@@ -9,11 +9,6 @@ This repository contains a script to boost the performance of Windows 11 using a
 irm raw.githubusercontent.com/Scuttlang/Win11-Booster/main/installer.ps1 | iex
 ```
 
-| Version |                                              |
-| ------- | --------------------------------------------- |
-| 2.1.x   | :white_check_mark: Tested - Approved- No Bug |
-| Beta    | :x:                                          |
-
 
 ![My Skills](https://skillicons.dev/icons?i=vscode,powershell,github,windows&perline=4)
 
