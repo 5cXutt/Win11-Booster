@@ -169,4 +169,5 @@ gpupdate /force
 sfc /scannow
 Dism /Online /Cleanup-Image /ScanHealth
 Dism /Online /Cleanup-Image /CheckHealh
+DISM /Online /Cleanup-Image /RestoreHealth
 Repair-WindowsImage -Online -RestoreHealth
