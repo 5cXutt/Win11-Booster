@@ -1,5 +1,5 @@
+$ErrorActionPreference = "SilentlyContinue"
 Clear-Host
-
 
 function Check-Administrator {
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
