@@ -178,6 +178,9 @@ takeown /f $env:TEMP -recurse -force
 takeown /f "C:\Windows\Temp" /r /a
 Remove-Item -Path "C:\Windows\Temp" -Recurse -Force
 New-Item -Path "C:\Windows\Temp" -ItemType Directory
+bcdedit /set useplatformtick yes
+bcdedit /set disabledynamictick yes
+bcdedit /deletevalue useplatformclock
 
 # Run disk cleanup
 cleanmgr
