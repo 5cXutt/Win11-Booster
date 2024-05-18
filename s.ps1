@@ -95,12 +95,9 @@ $restorePointDescription = "MyRestorePoint_$(Get-Date -Format 'yyyyMMdd_HHmmss')
 Create-SystemRestorePoint -Description $restorePointDescription
 
 Install-PSWindowsUpdateModule
-
-# Install Windows updates
 Import-Module PSWindowsUpdate
 Install-WindowsUpdate -AcceptAll
 
-# Modify registry settings
 Modify-Registry -KeyPath "SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -ValueName "SearchOrderConfig" -ValueData 0
 Modify-Registry -KeyPath "SYSTEM\CurrentControlSet\Control" -ValueName "WaitToKillServiceTimeout" -ValueData 2000
 Modify-Registry -KeyPath "SYSTEM\CurrentControlSet\Control\Session Manager\Power" -ValueName "HiberbootEnabled" -ValueData 0
@@ -158,10 +155,8 @@ function Set-KeyboardSpeed {
 }
 Set-KeyboardSpeed
 
-# Clear DNS client cache
 Clear-DnsClientCache
 
-# Adjust TCP settings
 netsh int tcp set global autotuninglevel=disabled
 netsh winsock reset
 netsh int tcp set heuristics disabled
@@ -171,7 +166,6 @@ netsh interface tcp set heuristics disabled
 netsh interface ipv4 set subinterface "Ethernet" mtu=1500 store=persistent
 netsh interface ipv4 set interface "Ethernet" dscp=46
 
-# Clear temporary directories
 Remove-Item -Path $env:TEMP -Recurse -Force
 New-Item -Path $env:TEMP -ItemType Directory
 takeown /f $env:TEMP -recurse -force
@@ -182,23 +176,15 @@ bcdedit /set useplatformtick yes
 bcdedit /set disabledynamictick yes
 bcdedit /deletevalue useplatformclock
 
-# Run disk cleanup
 cleanmgr
-
-# Run msconfig
 msconfig
-
-# Apply group policy updates
 foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~*.mum") {
     DISM /Online /NoRestart /Add-Package:"$F"
 }
-
 foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") {
     DISM /Online /NoRestart /Add-Package:"$F"
 }
-
 gpedit.msc
-
 Write-Host("
 Configurazione computer > Modelli Amministrativi > Rete > Unità di pianificazione pacchetti QoS
 > Limita pacchetti in attesa > Off 
@@ -217,7 +203,6 @@ lascia tutto default ")
 
 gpupdate /force
 
-# Perform system file checks
 sfc /scannow
 Dism /Online /Cleanup-Image /ScanHealth
 Dism /Online /Cleanup-Image /CheckHealh
