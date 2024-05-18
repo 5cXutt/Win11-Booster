@@ -194,7 +194,8 @@ foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windo
     DISM /Online /NoRestart /Add-Package:"$F"
 }
 
-# Apply group policy settings
+gpedit.msc
+
 Write-Host @"
 Configurazione computer > Modelli Amministrazitivi > Rete > Unita di piaifncaizone pacchetti QoS
 > Limita pacchetti in attesa > Off 
@@ -211,7 +212,6 @@ lascia tutto default
 >Valore di priorita livello 2
 lascia tutto default "@
 
-gpedit.msc
 gpupdate /force
 
 # Perform system file checks
