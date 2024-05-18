@@ -199,21 +199,21 @@ foreach ($F in Get-ChildItem "$env:SystemRoot\servicing\Packages\Microsoft-Windo
 
 gpedit.msc
 
-Write-Host @"
-Configurazione computer > Modelli Amministrazitivi > Rete > Unita di piaifncaizone pacchetti QoS
+Write-Host("
+Configurazione computer > Modelli Amministrativi > Rete > Unità di pianificazione pacchetti QoS
 > Limita pacchetti in attesa > Off 
-> Limita larghezza di banda riservabilei > On > 0 %
-> Imposta risoluzine del tmierm > Off
->Valore DSCP dei paccheti nn conformi 
-Tipo di servizio massimo sforzo	Abilitato	Valore 48
-Tipo di servizio a carico controllato	Abilitato	Valore 48
-Tipo di servizio garantito	Abilitato	Valore 48
-Tipo di servizio controllo di rete	Abilitato	Valore 48
-Tipo di servizio qualitativo	Abilitato	Valore 48
->Valore DSCP dei paccheti conformi 
+> Limita larghezza di banda riservabile > On > 0 %
+> Imposta risoluzione del timer > Off
+> Valore DSCP dei pacchetti non conformi 
+Tipo di servizio massimo sforzo    Abilitato    Valore 46
+Tipo di servizio a carico controllato    Abilitato    Valore 46
+Tipo di servizio garantito    Abilitato    Valore 46
+Tipo di servizio controllo di rete    Abilitato    Valore 46
+Tipo di servizio qualitativo    Abilitato    Valore 46
+> Valore DSCP dei pacchetti conformi 
 lascia tutto default
->Valore di priorita livello 2
-lascia tutto default "@
+> Valore di priorità livello 2
+lascia tutto default ")
 
 gpupdate /force
 
