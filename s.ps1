@@ -1,10 +1,25 @@
 Clear-Host
 
+
 function Check-Administrator {
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         Write-Host "This script must be run with administrator privileges" -ForegroundColor Red
         Start-Sleep -Seconds 2
         exit
+    }
+}
+
+function Create-SystemRestorePoint {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Description
+    )
+
+    try {
+        Checkpoint-Computer -Description $Description -RestorePointType "MODIFY_SETTINGS"
+        Write-Output "System restore point '$Description' created successfully."
+    } catch {
+        Write-Error "Error creating system restore point: $_"
     }
 }
 
@@ -76,6 +91,9 @@ function Modify-RegistryString {
 }
 
 Check-Administrator
+$restorePointDescription = "MyRestorePoint_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+Create-SystemRestorePoint -Description $restorePointDescription
+
 Install-PSWindowsUpdateModule
 
 # Install Windows updates
