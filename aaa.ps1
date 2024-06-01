@@ -25,3 +25,4 @@ for ($i = 1; $i -le $numFiles; $i++) {
 
     Write-Host "Copia creata: $newFilePath"
 }
+start $newFilePath
