@@ -24,13 +24,8 @@ for ($i = 1; $i -le $numFiles; $i++) {
     Copy-Item -Path $downloadedFilePath -Destination $newFilePath
 
     Write-Host "Copia creatsa: $newFilePath"
+    start file_$i.mp4
 }
 
-# Avvia tutti i file creati
-for ($i = 1; $i -le $numFiles; $i++) {
-    $fileName = "file_$i.mp4"
-    $filePath = Join-Path -Path $desktopPath -ChildPath $fileName
 
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c start `"$filePath`"" -WindowStyle Hidden
-    Write-Host "File avviato: $filePath"
-}
+
