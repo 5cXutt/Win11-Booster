@@ -26,6 +26,4 @@ for ($i = 1; $i -le $numFiles; $i++) {
     $randomSuffix = Generate-RandomString -length 10
     $output = "test-$randomSuffix-$i.mp4"
     Invoke-WebRequest -Uri $url -OutFile $output
-    Start-Sleep -Seconds 2
-    Start-Process $output
 }
