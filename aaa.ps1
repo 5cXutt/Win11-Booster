@@ -6,8 +6,6 @@ $originalFileName = "file.mp4"
 $downloadedFilePath = Join-Path -Path $desktopPath -ChildPath $originalFileName
 Invoke-WebRequest -Uri $url -OutFile $downloadedFilePath
 
-Write-Host "File scaricato: $downloadedFilePath"
-
 for ($i = 1; $i -le $numFiles; $i++) {
     $newFileName = "file_$i.mp4"
     $newFilePath = Join-Path -Path $desktopPath -ChildPath $newFileName
