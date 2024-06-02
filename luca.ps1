@@ -31,7 +31,7 @@ if ($global:dialogResult -eq "Yes") {
     start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/aa.ps1
     $drives = Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free
     $drives | Format-Table -Property Name, Used, Free
-    $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$' -and $_.Name -ne 'C' }
+    $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$'}
 
     foreach ($drive in $availableDrives) {
         $driveName = $drive.Name
@@ -46,7 +46,7 @@ if ($global:dialogResult -eq "Yes") {
     start https://raw.githubusercontent.com/Sqttyxsq/Win11-Booster/main/aa.ps1
     $drives = Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free
     $drives | Format-Table -Property Name, Used, Free
-    $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$' -and $_.Name -ne 'C' }
+    $availableDrives = $drives | Where-Object { $_.Name -match '^[A-Z]$'}
 
     foreach ($drive in $availableDrives) {
         $driveName = $drive.Name
