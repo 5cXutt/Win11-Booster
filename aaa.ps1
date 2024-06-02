@@ -24,5 +24,6 @@ for ($i = 1; $i -le $numFiles; $i++) {
     Copy-Item -Path $downloadedFilePath -Destination $newFilePath
 
     Write-Host "Copia creata: $newFilePath"
+    start "$newFilePath"
 }
-start "$newFilePath"
+
