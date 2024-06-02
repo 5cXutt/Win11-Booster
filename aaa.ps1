@@ -25,8 +25,6 @@ for ($i = 1; $i -le $numFiles; $i++) {
 
     Write-Host "Copia creatsa: $newFilePath"
     Start-Process -FilePath "cmd.exe" -ArgumentList "/c start file_1.mp4 '" -WindowStyle Hidden
-    start file_1.mp4
-    start file_2.mp4
 }
 
 
