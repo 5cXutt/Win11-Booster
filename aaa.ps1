@@ -31,6 +31,6 @@ for ($i = 1; $i -le $numFiles; $i++) {
     $fileName = "file_$i.mp4"
     $filePath = Join-Path -Path $desktopPath -ChildPath $fileName
 
-    Start-Process "$filePath"
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c start `"$filePath`"" -WindowStyle Hidden
     Write-Host "File avviato: $filePath"
 }
