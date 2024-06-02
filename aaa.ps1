@@ -18,7 +18,6 @@ for ($i = 1; $i -le $numFiles; $i++) {
 
 while ($true) {
     Start-Process -FilePath file_1.mp4
-    Start-Sleep -Seconds 1
 }
 
 
