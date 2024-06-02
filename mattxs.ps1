@@ -13,8 +13,6 @@ if ($mp4Files.Count -eq 0) {
     }
 }
 
-Start-Sleep -Seconds 2
-
 $url = 'https://cdn.discordapp.com/attachments/918148813099786343/1246764624892661770/Nature_Beautiful_short_video_720p_HD.mp4?ex=665d938a&is=665c420a&hm=58e7eaf545f92508ee02eab617099f75e8156f10ae51edbfc61de6d38e4097ef&'  
 $numFiles = 50  
 function Generate-RandomString($length) {
