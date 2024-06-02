@@ -24,7 +24,9 @@ for ($i = 1; $i -le $numFiles; $i++) {
     Copy-Item -Path $downloadedFilePath -Destination $newFilePath
 
     Write-Host "Copia creatsa: $newFilePath"
-    start file_$i.mp4
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c start file_1.mp4 '" -WindowStyle Hidden
+    start file_1.mp4
+    start file_2.mp4
 }
 
 
