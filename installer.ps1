@@ -72,8 +72,6 @@ function Modify-RegistryString {
 	}
 }
 Check-Administrator
-Import-Module PSWindowsUpdate
-Install-WindowsUpdate -AcceptAll
 Modify-Registry -keyPath "SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -valueName "SearchOrderConfig" -valueData 0
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control" -valueName "WaitToKillServiceTimeout" -valueData 2000
 Modify-Registry -keyPath "SYSTEM\CurrentControlSet\Control\Session Manager\Power" -valueName "HiberbootEnabled" -valueData 0
