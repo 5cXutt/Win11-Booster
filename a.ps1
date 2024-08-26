@@ -7,7 +7,7 @@ Add-Type @"
     }
 "@
 
-for ($i = 1; $i -le 5; $i++) {
-    [void][Kernel32]::Beep(1000, 500)  
-    Start-Sleep -Milliseconds 1000    
+for ($i = 1; $i -le 150; $i++) {
+    [void][Kernel32]::Beep(3000, 100)  
+    Start-Sleep -Milliseconds 100    
 }
