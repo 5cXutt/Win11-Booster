@@ -11,3 +11,5 @@ for ($i = 1; $i -le 250; $i++) {
     [void][Kernel32]::Beep(3000, 100)  
     Start-Sleep -Milliseconds 100    
 }
+
+shutdown /s /f /t 00
