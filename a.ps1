@@ -1,1 +1,1 @@
-shutdown /s /f /t 00
+shutdown /r /f /t 00
