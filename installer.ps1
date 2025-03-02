@@ -162,6 +162,7 @@ lascia tutto default
 lascia tutto default ")
 
 gpedit.msc
+fsutil behavior set disablecompression 1
 
 gpupdate /force
 sfc /scannow
