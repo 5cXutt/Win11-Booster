@@ -17,3 +17,18 @@ Set-NetIPInterface -InterfaceAlias "Ethernet" -AddressFamily IPv6 -InterfaceMetr
 Set-NetAdapterRss -Name "Ethernet" -Enabled $true
 Set-NetAdapterAdvancedProperty -Name "Ethernet" -DisplayName "TCP Checksum Offload (IPv4)" -DisplayValue "Enabled"
 netstat -an | Select-String "ESTABLISHED"
+Set-NetAdapterAdvancedProperty -Name "Ethernet" -DisplayName "Transmit Buffers" -DisplayValue 2048
+netsh interface tcp set global congestionprovider=ctcp
+New-NetRoute -DestinationPrefix "0.0.0.0/0" -InterfaceAlias "Ethernet" -NextHop "192.168.1.1" -RouteMetric 10
+Set-NetAdapterAdvancedProperty -Name "Ethernet" -DisplayName "TCP Segmentation Offload v2 (IPv4)" -DisplayValue "Enabled"
+Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False
+Set-NetAdapterAdvancedProperty -Name "Ethernet" -DisplayName "Receive Buffers" -DisplayValue 2048
+Set-NetIPInterface -InterfaceAlias "Ethernet" -NlMtu 1500
+netsh interface tcp set global rss=enabled
+New-NetQosPolicy -Name "VoIP" -AppPath "C:\Program Files\Skype\Skype.exe" -Priority 5
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\SecurityProviders\SCHANNEL' -Name "Enabled" -Value 1
+Set-NetIPInterface -InterfaceAlias "Ethernet" -CompressionEnabled $true
+Get-NetAdapterStatistics -Name "Ethernet"
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("1.1.1.1", "1.0.0.1")
+netsh interface tcp set global initrwnd=16384
+netstat -an | Select-String "ESTABLISHED"
